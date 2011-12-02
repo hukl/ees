@@ -2,4 +2,4 @@
 
 require 'ees'
 
-puts "hello"
+Ees::Cli.start

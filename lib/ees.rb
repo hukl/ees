@@ -1,5 +1,5 @@
 require "ees/version"
-require 'cli'
+require 'ees/cli'
 
 module Ees
   # Your code goes here...
