@@ -28,10 +28,12 @@ module Ees
         [:project, :app] + valid_templates
       end
 
+      def template_path
+        File.join( File.dirname( __FILE__), "..", "..", "templates" )
+      end
+
       def valid_templates
-        path = File.join(
-          File.dirname( __FILE__), "..", "..", "templates", "behaviors"
-        )
+        path = File.join( template_path, "behaviors" )
 
         Dir.entries( path ).reject do |filename|
           [".", ".."].include?( filename )
