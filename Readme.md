@@ -7,6 +7,9 @@ Its quite annoying to set everything up before the first line of actual code is
 written. This little helper will make it easy and fast to spawn new projects,
 apps and behaviours so you can focus on the coding part.
 
+It follows the principle of convention over configuration by setting everything
+up with reasonable defaults.
+
 ## Installation
 
 ```
