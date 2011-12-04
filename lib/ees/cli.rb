@@ -11,7 +11,7 @@ module Ees
           :command        => ARGV[0],
           :sub_command    => ARGV[1],
           :argument       => ARGV[2],
-          :sub_arguments  => ARGV[3],
+          :sub_arguments  => ARGV[3..-1],
           :path           => Dir.pwd
         }
 
