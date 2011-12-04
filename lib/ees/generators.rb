@@ -42,7 +42,7 @@ module Ees
           :behavior   => options[:sub_command],
           :name       => options[:argument],
           :path       => Dir.pwd,
-          :arguments  => options[:sub_arguments]
+          :arguments  => options[:sub_arguments] || []
         )
       end
 
@@ -70,7 +70,7 @@ module Ees
 
       def render_behavior_erb options
         name      = options[:name]
-        arguments = options[:arguments]
+        arguments = options[:arguments].map { |element|  element.sub(":", "/") }
 
         template_path = File.join(
           Ees::Api.template_path, "behaviors", "#{options[:behavior]}.erb"
