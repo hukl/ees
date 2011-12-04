@@ -31,9 +31,20 @@ module Ees
       end
 
       def generate_behavior options
+        current_path_segements = Dir.pwd.split( File::SEPARATOR )
 
+        unless current_path_segements[-2] == "apps"
+          puts "Run this command inside of an app directory"
+          return
+        end
+
+        render_behavior_erb(
+          :behavior   => options[:sub_command],
+          :name       => options[:argument],
+          :path       => Dir.pwd,
+          :arguments  => options[:sub_arguments]
+        )
       end
-
 
       private
 
@@ -55,6 +66,22 @@ module Ees
           FileUtils.mv( template_path, new_filename )
         end
 
+      end
+
+      def render_behavior_erb options
+        name      = options[:name]
+        arguments = options[:arguments]
+
+        template_path = File.join(
+          Ees::Api.template_path, "behaviors", "#{options[:behavior]}.erb"
+        )
+
+        template          = ERB.new( File.read( template_path ) )
+        destination_path  = File.join( Dir.pwd, "src", "#{name}.erl" )
+
+        File.open( destination_path, "w+" ) do |file|
+          file.write( template.result( binding ) )
+        end
       end
     end
   end
