@@ -1,4 +1,4 @@
-{application, _template,
+{application, <%= app_name %>,
  [
   {description, ""},
   {vsn, "0.0.1"},
@@ -8,5 +8,6 @@
                   stdlib,
                   sasl
                  ]},
+  {mod, {<%= app_name %>, []}}
   {env, []}
  ]}.
