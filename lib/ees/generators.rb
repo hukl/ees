@@ -41,16 +41,20 @@ module Ees
         app_name        = options[:name]
         templates_path  = File.join( options[:path], "src" )
 
-        Dir.entries( template_path ).each do |filename|
+        Dir.entries( templates_path ).each do |filename|
           next if filename =~ /^\./
 
-          template      = File.read( File.join( template_path, filename ) )
-          new_filename  = File.join( template_path, filename.sub(/\.erb$/, "") )
+          template_path = File.join( templates_path, filename )
+          template      = File.read( template_path )
+          new_filename  = File.join( templates_path, filename.sub(/\.erb$/, "") )
 
-          File.open( new_filename ) do |file|
+          File.open( template_path, "w+" ) do |file|
             file.write ERB.new( template ).result( binding )
           end
+
+          FileUtils.mv( template_path, new_filename )
         end
+
       end
     end
   end
