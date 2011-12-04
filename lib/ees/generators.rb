@@ -26,12 +26,32 @@ module Ees
 
         FileUtils.mkdir( app_path )
         FileUtils.cp_r( template_path, app_path )
+
+        render_erb_files( :name => options[:argument], :path => app_path )
       end
 
       def generate_behavior options
 
       end
 
+
+      private
+
+      def render_erb_files options
+        app_name        = options[:name]
+        templates_path  = File.join( options[:path], "src" )
+
+        Dir.entries( template_path ).each do |filename|
+          next if filename =~ /^\./
+
+          template      = File.read( File.join( template_path, filename ) )
+          new_filename  = File.join( template_path, filename.sub(/\.erb$/, "") )
+
+          File.open( new_filename ) do |file|
+            file.write ERB.new( template ).result( binding )
+          end
+        end
+      end
     end
   end
 end
