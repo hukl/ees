@@ -83,6 +83,16 @@ module Ees
           file.write( template.result( binding ) )
         end
       end
+
+      def new_function_helper function
+        name, arity = function.split("/")
+
+        args = (0...arity.to_i).map {|i| "Arg#{i}"}.join(", ")
+        body =  "#{name}(#{args}) ->" \
+                "  ok.\n"
+
+        return body
+      end
     end
   end
 end
