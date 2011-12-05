@@ -28,6 +28,7 @@ module Ees
         FileUtils.cp_r( template_path, app_path )
 
         render_erb_files( :name => options[:argument], :path => app_path )
+        render_project_config
       end
 
       def generate_behavior options
@@ -47,6 +48,25 @@ module Ees
       end
 
       private
+
+      def render_project_config
+        unless Dir.exists?( File.join( Dir.pwd, "apps" ) )
+          puts "Run this command from the project root"
+          return
+        end
+
+        defaults    = ['"rel"']
+        apps        = Dir.entries("apps").reject {|e| e =~ /^\..*$/ }
+        app_paths   = apps.map {|a| "\"apps/#{a}\""} + defaults
+
+        config_reg  = /\{sub_dirs\, \[[a-zA-Z_\-\/0-9,\s\""]*\]\}\./
+        old_config  = File.read("rebar.config")
+        new_config  = old_config.sub( config_reg ) do |match|
+          "{sub_dirs, [#{app_paths.join(", ")}]}."
+        end
+
+        File.open( "rebar.config", "w+" ) { |f| f.write new_config }
+      end
 
       def render_erb_files options
         app_name        = options[:name]
