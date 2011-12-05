@@ -1,3 +1,4 @@
+
 -module(<%= name %>).
 -behavior(gen_server).
 
@@ -34,7 +35,7 @@ init([]) ->
   { ok, {} }.
 
 handle_call( _Msg, _From, State ) ->
-  { reply, ok, State };
+  { reply, ok, State }.
 
 handle_cast( stop, State ) ->
   { stop, normal, State };

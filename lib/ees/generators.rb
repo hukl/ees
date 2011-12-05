@@ -57,13 +57,17 @@ module Ees
 
           template_path = File.join( templates_path, filename )
           template      = File.read( template_path )
-          new_filename  = File.join( templates_path, filename.sub(/\.erb$/, "") )
+          new_filename  = filename.sub(
+            "template", app_name
+          ).sub(/\.erb$/, "")
+
+          new_filepath  = File.join( templates_path, new_filename )
 
           File.open( template_path, "w+" ) do |file|
             file.write ERB.new( template ).result( binding )
           end
 
-          FileUtils.mv( template_path, new_filename )
+          FileUtils.mv( template_path, new_filepath )
         end
 
       end
@@ -87,7 +91,7 @@ module Ees
       def new_function_helper function
         name, arity = function.split("/")
 
-        args = (0...arity.to_i).map {|i| "Arg#{i}"}.join(", ")
+        args = (0...arity.to_i).map {|i| "_Arg#{i}"}.join(", ")
         body =  "#{name}(#{args}) ->" \
                 "  ok.\n"
 
