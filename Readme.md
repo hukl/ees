@@ -12,8 +12,10 @@ up with reasonable defaults.
 
 ## Installation
 
+Until its released as a gem clone the project and run
+
 ```
-gem install ees
+cd ees && gem build ees.gemspec && gem install ees-x.x.x.gem
 ```
 
 ## Usage
